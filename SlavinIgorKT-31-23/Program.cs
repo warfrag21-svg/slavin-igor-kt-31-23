@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using SlavinIgorkt_31_23.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,10 @@ try
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    builder.Services.AddDbContext<StudentDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
     var app = builder.Build();
 
