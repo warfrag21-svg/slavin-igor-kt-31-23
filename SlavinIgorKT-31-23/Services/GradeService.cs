@@ -82,5 +82,13 @@ namespace SlavinIgorkt_31_23.Services
             await _dbContext.SaveChangesAsync(cancellationToken);
             return grade;
         }
+
+        public async Task<double> GetStudentAverageGradeAsync(int studentid, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Grades
+                .Where(g => g.StudentId == studentid)
+                .AverageAsync(g => g.Value, cancellationToken);
+
+        }
     }
 }

@@ -3,6 +3,7 @@ using NLog;
 using NLog.Web;
 using SlavinIgorkt_31_23.Database;
 using SlavinIgorkt_31_23.ServiceExtensions;
+using SlavinIgorkt_31_23.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,8 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseMiddleware<ExceptionHandlerMiddleware>();
 
     app.UseAuthorization();
 

@@ -12,6 +12,7 @@ namespace SlavinIgorkt_31_23.Interfaces
         Task<double> GetAverageGradeByYearAsync(int year, CancellationToken cancellationToken = default);
         Task<int?> GetStudentGradeAsync(int studentId, int disciplineId, CancellationToken cancellationToken = default);
         Task<Grade> AddOrUpdateGradeAsync(Grade grade, CancellationToken cancellationToken = default);
-        
+        Task<double> GetStudentAverageGradeAsync(int studentid, CancellationToken cancellationToken = default);
+
     }
 }

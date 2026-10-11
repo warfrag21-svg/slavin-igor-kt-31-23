@@ -43,5 +43,12 @@ namespace SlavinIgorkt_31_23.Controllers
             await _specialtyService.DeleteSpecialtyAsync(specialtyId, cancellationToken);
             return Ok();
         }
+
+        [HttpPost("GetSpecialtysCode")]
+        public async Task<IActionResult> GetSpecialtysCodeAsync(SpecialtyFilterCode filter, CancellationToken cancellationToken)
+        {
+            var specialtys = await _specialtyService.GetSpecialtysCodeAsync(filter, cancellationToken);
+            return Ok(specialtys);
+        }
     }
 }

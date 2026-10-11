@@ -3,6 +3,7 @@ using SlavinIgorkt_31_23.Database;
 using SlavinIgorkt_31_23.Filters;
 using SlavinIgorkt_31_23.Interfaces;
 using SlavinIgorkt_31_23.Models;
+using System.Text.RegularExpressions;
 
 namespace SlavinIgorkt_31_23.Services
 {
@@ -54,5 +55,46 @@ namespace SlavinIgorkt_31_23.Services
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
         }
+
+        public async Task<int> GetStudentsCountByGroup(int groupId, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Students
+                .CountAsync(g => g.GroupId == groupId);
+        }
+
+        public async Task<string[]> GetStudentsWithGradeAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Students
+                .Where(s => _dbContext.Grades.Any(g => g.StudentId == s.StudentId && g.Value == 2))
+                .Select(s => s.LastName)
+                .Distinct()
+                .ToArrayAsync(cancellationToken);
+        }
+
+        public async Task<string[]> GetLastNamesBySpecialtyAsync(string specialtyTitle, CancellationToken cancellationToken = default) {
+            if (string.IsNullOrWhiteSpace(specialtyTitle))
+                throw new ArgumentException("Название специальности не может быть пустым", nameof(specialtyTitle));
+
+            return await _dbContext.Students
+                .Where(s => s.Group.Specialty.Title == specialtyTitle)
+                .Select(s => s.LastName)
+                .OrderBy(l => l)
+                .Distinct()
+                .ToArrayAsync(cancellationToken);
+        }
+
+        public async Task<string[]> GetGroupsStudentsCountBySpecialtyAsync(string specialtyTitle, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(specialtyTitle))
+                throw new ArgumentException("Название специальности не может быть пустым", nameof(specialtyTitle));
+
+            return await _dbContext.Students
+                .Where(s => !s.IsDeleted && s.Group.Specialty.Title == specialtyTitle)
+                .GroupBy(s => s.Group.Name)
+                .Select(g => g.Key + ": " + g.Count().ToString())
+                .OrderBy(s => s)
+                .ToArrayAsync(cancellationToken);
+        }
+
     }
 }

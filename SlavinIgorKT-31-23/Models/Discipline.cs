@@ -1,9 +1,11 @@
-﻿namespace SlavinIgorkt_31_23.Models
+﻿using System.ComponentModel;
+
+namespace SlavinIgorkt_31_23.Models
 {
     public class Discipline
     {
         public int DisciplineId { get; set; }
         public string Name { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

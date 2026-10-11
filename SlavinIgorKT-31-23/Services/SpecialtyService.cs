@@ -53,5 +53,15 @@ namespace SlavinIgorkt_31_23.Services
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
         }
+
+        public async Task<Specialty[]> GetSpecialtysCodeAsync(SpecialtyFilterCode filter, CancellationToken cancellationToken = default)
+        {
+            var query = _dbContext.Specialtys.AsQueryable();
+
+            if (!string.IsNullOrEmpty(filter.Code))
+                query = query.Where(s => s.Code.Contains(filter.Code));
+
+            return await query.ToArrayAsync(cancellationToken);
+        }
     }
 }

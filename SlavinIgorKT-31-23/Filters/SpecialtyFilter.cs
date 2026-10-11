@@ -5,4 +5,8 @@
         public string? Title { get; set; }
         public string? Code { get; set; }
     }
+    public class SpecialtyFilterCode
+    {
+        public string? Code { get; set; }
+    }
 }

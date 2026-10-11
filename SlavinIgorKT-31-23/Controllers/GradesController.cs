@@ -65,5 +65,13 @@ namespace SlavinIgorkt_31_23.Controllers
             var result = await _gradeService.AddOrUpdateGradeAsync(grade, cancellationToken);
             return Ok(result);
         }
+
+        [HttpPost("AverageByStudent")]
+        public async Task<IActionResult> GetStudentAverageGradeAsync(int studentid, CancellationToken cancellationToken = default)
+        {
+            var result = await _gradeService.GetStudentAverageGradeAsync(studentid, cancellationToken);
+            return Ok(result);
+        }
+        
     }
 }
